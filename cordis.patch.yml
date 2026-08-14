@@ -1,0 +1,4 @@
+# 追加到你的 profile 组合补丁: ~/.dsh/profiles/web/cordis.patch.yml
+- insert:
+    - id: task-notify
+      name: '@deepseek-ai/dsh-task-notify'
