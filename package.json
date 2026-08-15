@@ -37,7 +37,7 @@
     "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
     "@deepseek-ai/dsh-typert-protocol": "^0.1.0-rc.6",
     "react": "^18.2.0",
-    "zod": "^3.0.0"
+    "zod": "^3.0.0 || ^4.0.0"
   },
   "license": "MIT",
   "repository": {
@@ -47,5 +47,8 @@
   "homepage": "https://github.com/kaotusi/dsh-task-notify#readme",
   "bugs": {
     "url": "https://github.com/kaotusi/dsh-task-notify/issues"
-  }
+  },
+  "sideEffects": [
+    "./lib/client.js"
+  ]
 }
