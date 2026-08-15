@@ -1,6 +1,6 @@
 {
   "name": "@deepseek-ai/dsh-task-notify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "System-level task notifications for DeepSeek Harness (DSH): approval requests, awaited replies, and finished background jobs / subagents / workflows — pushed to the OS notification center with chimes, plus an in-app bell panel, toasts, and a clear button.",
   "keywords": [
     "deepseek-harness",
