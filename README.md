@@ -77,8 +77,19 @@ dsh-task-notify/
 
 - **host 半部**（`lib/index.js`）：通过组合行监听 `approval/request`、`agent/turn-stopping`、`subagent/end`、`workflow/end` 与后台任务 `onJobDone`，聚合进进程内队列（上限 300 条），并注册 `taskNotify` Remote 服务（`pull` / `ack` / `clear` / `purge` / `diag`）与 `ntfy_status` 诊断工具。
 - **client 半部**（`lib/client.js`）：`__ModuleLoader__` 网页模块，轮询 `pull` 拉取队列，非读通知触发 OS 通知 + 提示音 + Toast；铃铛面板 / 样式全部内联，零构建。
+  - 已推送 ID 用 `localStorage` 去重（刷新 / 多标签页不重复轰炸），每轮最多推 3 条新通知；
+  - 以服务端快照为准做删除对账（另一标签页清理或宿主重启后不残留幽灵通知），面板保持服务端「最新在前」顺序；
+  - 页面隐藏时跳过轮询，`visibilitychange` 回前台立即拉取。
 - **客户端 RPC 走底层 connection seam**（`/api/taskNotify/pull` 等），不依赖 typert 命名空间 face —— 这是避免自挂载命名空间 inject 死锁的刻意设计，请勿回退为 `ctx.remote.<ns>` 调用。
 - 修改任何文件后需**重启 Harness** 生效（typert 清单按包名缓存）。
+
+## 测试 / Tests
+
+```sh
+npm test
+```
+
+Node 内置 test runner，零额外依赖：`test/client.test.mjs` 用 mock 的 window/React/Notification 驱动 client 纯逻辑（去重、删除对账、顺序、隐藏轮询、3 条预算）；`test/host.test.mjs` 覆盖 host 队列（key 去重、300 条 prune、ack/clear/purge）与 `ntfy_status` stale 诊断。host 组要求 peer 依赖可解析（本地开发可 `ln -s ~/.dsh/profiles/node_modules node_modules`）。
 
 ## 前置依赖 / Dependencies
 
